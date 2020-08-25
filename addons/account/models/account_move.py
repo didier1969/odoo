@@ -209,6 +209,8 @@ class AccountMove(models.Model):
 
             # Process taxes.
             for tax in to_process_taxes:
+                if tax.price_include:
+                    tax = tax.with_context(handle_price_include=False)
                 tax_line = _find_existing_tax_line(self.line_ids, tax, parsed_key['tag_ids'], parsed_key['analytic_account_id'])
                 lines_to_sum = _get_lines_to_sum(self.line_ids, tax, parsed_key['tag_ids'], parsed_key['analytic_account_id'])
 
@@ -247,18 +249,19 @@ class AccountMove(models.Model):
                         taxes_vals['taxes'][0]['amount'] += sum([v['amount'] for v in val['taxes']])
 
                 if tax_line:
-                    # Update the existing tax_line.
-                    if balance:
-                        # Update the debit/credit amount according to the new balance.
-                        if taxes_vals.get('taxes'):
-                            amount = taxes_vals['taxes'][0]['amount']
-                            account = _get_tax_account(tax, amount) or line.account_id
-                            tax_line.debit = amount > 0 and amount or 0.0
-                            tax_line.credit = amount < 0 and -amount or 0.0
-                            tax_line.account_id = account
-                    else:
-                        # Reset debit/credit in case of the originator line is temporary set to 0 in both debit/credit.
-                        tax_line.debit = tax_line.credit = 0.0
+                    if len(tax_line) == 1:
+                        # Update the existing tax_line.
+                        if balance:
+                            # Update the debit/credit amount according to the new balance.
+                            if taxes_vals.get('taxes'):
+                                amount = taxes_vals['taxes'][0]['amount']
+                                account = _get_tax_account(tax, amount) or line.account_id
+                                tax_line.debit = amount > 0 and amount or 0.0
+                                tax_line.credit = amount < 0 and -amount or 0.0
+                                tax_line.account_id = account
+                        else:
+                            # Reset debit/credit in case of the originator line is temporary set to 0 in both debit/credit.
+                            tax_line.debit = tax_line.credit = 0.0
                 elif taxes_vals.get('taxes'):
                     # Create a new tax_line.
 
@@ -350,9 +353,8 @@ class AccountMove(models.Model):
 
     @api.multi
     def action_post(self):
-        if self.mapped('line_ids.payment_id'):
-            if any(self.mapped('journal_id.post_at_bank_rec')):
-                raise UserError(_("A payment journal entry generated in a journal configured to post entries only when payments are reconciled with a bank statement cannot be manually posted. Those will be posted automatically after performing the bank reconciliation."))
+        if self.filtered(lambda x: x.journal_id.post_at_bank_rec).mapped('line_ids.payment_id').filtered(lambda x: x.state != 'reconciled'):
+            raise UserError(_("A payment journal entry generated in a journal configured to post entries only when payments are reconciled with a bank statement cannot be manually posted. Those will be posted automatically after performing the bank reconciliation."))
         return self.post()
 
     @api.multi
@@ -375,10 +377,7 @@ class AccountMove(models.Model):
 
     @api.multi
     def unlink(self):
-        for move in self:
-            #check the lock date + check if some entries are reconciled
-            move.line_ids._update_check()
-            move.line_ids.unlink()
+        self.mapped('line_ids').unlink()
         return super(AccountMove, self).unlink()
 
     @api.multi
@@ -413,7 +412,7 @@ class AccountMove(models.Model):
         # are already done. Then, this query MUST NOT depend of computed stored fields (e.g. balance).
         # It happens as the ORM makes the create with the 'no_recompute' statement.
         self._cr.execute('''
-            SELECT line.move_id, ROUND(SUM(debit - credit), currency.decimal_places)
+            SELECT line.move_id, ROUND(SUM(line.debit - line.credit), currency.decimal_places)
             FROM account_move_line line
             JOIN account_move move ON move.id = line.move_id
             JOIN account_journal journal ON journal.id = move.journal_id
@@ -421,7 +420,7 @@ class AccountMove(models.Model):
             JOIN res_currency currency ON currency.id = company.currency_id
             WHERE line.move_id IN %s
             GROUP BY line.move_id, currency.decimal_places
-            HAVING ROUND(SUM(debit - credit), currency.decimal_places) != 0.0;
+            HAVING ROUND(SUM(line.debit - line.credit), currency.decimal_places) != 0.0;
         ''', [tuple(self.ids)])
 
         res = self._cr.fetchone()
@@ -663,7 +662,7 @@ class AccountMoveLine(models.Model):
         help="The residual amount on a journal item expressed in its currency (possibly not the company currency).")
     tax_base_amount = fields.Monetary(string="Base Amount", compute='_compute_tax_base_amount', currency_field='company_currency_id', store=True)
     account_id = fields.Many2one('account.account', string='Account', required=True, index=True,
-        ondelete="cascade", domain=[('deprecated', '=', False)], default=lambda self: self._context.get('account_id', False))
+        ondelete='restrict', domain=[('deprecated', '=', False)], default=lambda self: self._context.get('account_id', False))
     move_id = fields.Many2one('account.move', string='Journal Entry', ondelete="cascade",
         help="The move of this entry line.", index=True, required=True, auto_join=True)
     narration = fields.Text(related='move_id.narration', string='Narration', readonly=False)
@@ -696,7 +695,7 @@ class AccountMoveLine(models.Model):
     counterpart = fields.Char("Counterpart", compute='_get_counterpart', help="Compute the counter part accounts of this journal item for this journal entry. This can be needed in reports.")
 
     # TODO: put the invoice link and partner_id on the account_move
-    invoice_id = fields.Many2one('account.invoice', oldname="invoice")
+    invoice_id = fields.Many2one('account.invoice', oldname="invoice", copy=False)
     partner_id = fields.Many2one('res.partner', string='Partner', ondelete='restrict')
     user_type_id = fields.Many2one('account.account.type', related='account_id.user_type_id', index=True, store=True, oldname="user_type", readonly=True)
     tax_exigible = fields.Boolean(string='Appears in VAT report', default=True,
@@ -1672,6 +1671,7 @@ class AccountPartialReconcile(models.Model):
         return {
             'name': line.name,
             'account_id': account_id,
+            'journal_id': new_move.journal_id.id,
             'tax_exigible': True,
             'tax_ids': [(6, 0, [tax])],
             'move_id': new_move.id,
@@ -1719,7 +1719,10 @@ class AccountPartialReconcile(models.Model):
                 for line in move.line_ids:
                     if not line.tax_exigible:
                         #amount is the current cash_basis amount minus the one before the reconciliation
-                        amount = line.balance * percentage_after - line.balance * percentage_before
+                        if percentage_after == 1.0 and line.amount_residual:
+                            amount = line.amount_residual
+                        else:
+                            amount = line.balance * percentage_after - line.balance * percentage_before
                         rounded_amt = self._get_amount_tax_cash_basis(amount, line)
                         if float_is_zero(rounded_amt, precision_rounding=line.company_id.currency_id.rounding):
                             continue
@@ -1739,6 +1742,7 @@ class AccountPartialReconcile(models.Model):
                                 'currency_id': line.currency_id.id,
                                 'move_id': newly_created_move.id,
                                 'partner_id': line.partner_id.id,
+                                'journal_id': newly_created_move.journal_id.id,
                             })
                             # Group by cash basis account and tax
                             self.env['account.move.line'].with_context(check_move_validity=False).create({
@@ -1754,6 +1758,7 @@ class AccountPartialReconcile(models.Model):
                                 'currency_id': line.currency_id.id,
                                 'move_id': newly_created_move.id,
                                 'partner_id': line.partner_id.id,
+                                'journal_id': newly_created_move.journal_id.id,
                             })
                             if line.account_id.reconcile and not line.reconciled:
                                 #setting the account to allow reconciliation will help to fix rounding errors
@@ -1831,12 +1836,15 @@ class AccountFullReconcile(models.Model):
             for example).
         """
         for rec in self:
-            if rec.exchange_move_id:
+            if rec.exists() and rec.exchange_move_id:
                 # reverse the exchange rate entry after de-referencing it to avoid looping
                 # (reversing will cause a nested attempt to drop the full reconciliation)
                 to_reverse = rec.exchange_move_id
                 rec.exchange_move_id = False
-                to_reverse.reverse_moves()
+                if to_reverse.date > (to_reverse.company_id.period_lock_date or date.min):
+                    to_reverse.reverse_moves(date=to_reverse.date)
+                else:
+                    to_reverse.reverse_moves()
         return super(AccountFullReconcile, self).unlink()
 
     @api.model

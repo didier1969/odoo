@@ -11,6 +11,7 @@
 # Martin Trigaux, 2019
 # Norimichi Sugimoto <norimichi.sugimoto@tls-ltd.co.jp>, 2019
 # Tim Siu Lai <tl@roomsfor.hk>, 2019
+# Hau Dao <hau@quartile.co>, 2020
 # Yoshi Tashiro <tashiro@roomsfor.hk>, 2020
 # 
 msgid ""
@@ -564,7 +565,7 @@ msgstr ""
 #. module: hr_holidays
 #: selection:hr.leave,request_date_from_period:0
 msgid "Afternoon"
-msgstr ""
+msgstr "午後"
 
 #. module: hr_holidays
 #: model:ir.ui.menu,name:hr_holidays.hr_holidays_menu_manager_all
@@ -1181,7 +1182,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:hr_holidays.field_hr_holidays_summary_employee__date_from
 #: model_terms:ir.ui.view,arch_db:hr_holidays.hr_leave_view_form
 msgid "From"
-msgstr "差出人"
+msgstr "由"
 
 #. module: hr_holidays
 #: model:ir.model.fields,field_description:hr_holidays.field_hr_employee__leave_date_from
@@ -1713,7 +1714,7 @@ msgstr "月"
 #. module: hr_holidays
 #: selection:hr.leave,request_date_from_period:0
 msgid "Morning"
-msgstr ""
+msgstr "午前"
 
 #. module: hr_holidays
 #: model:ir.actions.act_window,name:hr_holidays.hr_leave_allocation_action_my
@@ -2164,6 +2165,10 @@ msgid ""
 "Today: Activity date is today\n"
 "Planned: Future activities."
 msgstr ""
+"活動に基づく状態\n"
+"延滞：期限は既に過ぎました\n"
+"当日：活動日は本日です\n"
+"予定：将来の活動。"
 
 #. module: hr_holidays
 #: model_terms:ir.ui.view,arch_db:hr_holidays.report_holidayssummary

@@ -5,7 +5,7 @@
 # Translators:
 # Joao Felix <jrmfelix@gmail.com>, 2018
 # José Gomes <jg@opencloud.pro>, 2018
-# Manuela Silva <inactive+h_manuela_rodsilva@transifex.com>, 2018
+# 425fe09b3064b9f906f637fff94056ae_a00ea56 <0fa3588fa89906bfcb3a354600956e0e_308047>, 2018
 # Ricardo Martins <ricardo.nbs.martins@gmail.com>, 2018
 # Tiago Baptista, 2018
 # Vitor Fernandes <vmlf01@gmail.com>, 2018
@@ -13,7 +13,8 @@
 # Ricardo Correia <rcorreiavv@gmail.com>, 2019
 # Martin Trigaux, 2019
 # Marcelo Pereira <marcelo.pereira@arxi.pt>, 2019
-# Manuela Silva <manuelarodsilva@gmail.com>, 2019
+# Reinaldo Ramos <reinaldo.ramos@arxi.pt>, 2020
+# Manuela Silva <manuelarodsilva@gmail.com>, 2020
 # Nuno Silva <nuno.silva@arxi.pt>, 2020
 # 
 msgid ""
@@ -1182,7 +1183,7 @@ msgstr ""
 #: code:addons/mail/static/src/xml/discuss.xml:144
 #, python-format
 msgid "Channel settings"
-msgstr ""
+msgstr "Definições do canal"
 
 #. module: mail
 #. openerp-web
@@ -1400,13 +1401,13 @@ msgstr ""
 #: code:addons/mail/models/mail_thread.py:400
 #, python-format
 msgid "Create a new %(document)s"
-msgstr ""
+msgstr "Crie um novo %(document)s"
 
 #. module: mail
 #: code:addons/mail/models/mail_thread.py:392
 #, python-format
 msgid "Create a new %(document)s by sending an email to %(email_link)s"
-msgstr ""
+msgstr "Crie um novo %(document)s enviando um email para %(email_link)s"
 
 #. module: mail
 #: selection:ir.actions.server,state:0
@@ -1832,7 +1833,7 @@ msgstr "Data de Vencimento em"
 #: code:addons/mail/static/src/js/activity.js:95
 #, python-format
 msgid "Due in %d days"
-msgstr ""
+msgstr "Vencido em %d dias"
 
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_ir_actions_server__activity_date_deadline_range_type
@@ -2441,7 +2442,7 @@ msgstr "Ocultado"
 #. module: mail
 #: model:ir.model.fields,help:mail.field_mail_message_subtype__hidden
 msgid "Hide the subtype in the follower options"
-msgstr "Esconder o subtipo nas opcções do seguidor"
+msgstr "Esconder o subtipo nas opções do seguidor"
 
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_email_template_preview__id
@@ -5778,7 +5779,7 @@ msgstr ""
 #: code:addons/mail/models/mail_thread.py:752
 #, python-format
 msgid "View %s"
-msgstr ""
+msgstr "Ver %s"
 
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_ir_actions_act_window_view__view_mode
@@ -5974,7 +5975,7 @@ msgid ""
 " To create new user please go to configuration panel."
 msgstr ""
 "Você não pode criar um novo utilizador a partir daqui.\n"
-" Para criar novo utilizador aceda á configuração do painel ."
+" Para criar um novo utilizador aceda ao menu de configurações ."
 
 #. module: mail
 #: code:addons/mail/models/mail_channel.py:246
@@ -5985,6 +5986,14 @@ msgid ""
 msgstr ""
 "Não pode eliminar esses grupos, porque o grupo 'Empresa Completa' é "
 "necessário por outros módulos."
+
+#. module: mail
+#: code:addons/mail/models/mail_alias.py:89
+#, python-format
+msgid ""
+"You cannot use anything else than unaccented latin characters in the alias "
+"address."
+msgstr ""
 
 #. module: mail
 #: code:addons/mail/models/mail_channel.py:257
@@ -6059,14 +6068,14 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:mail.mail_notification_light
 #: model_terms:ir.ui.view,arch_db:mail.mail_notification_paynow
 msgid "Your"
-msgstr ""
+msgstr "O Seu Registo de"
 
 #. module: mail
 #. openerp-web
 #: code:addons/mail/static/src/js/thread_field.js:91
 #, python-format
 msgid "Your message has not been sent."
-msgstr ""
+msgstr "A sua mensagem não foi enviada."
 
 #. module: mail
 #. openerp-web
@@ -6080,7 +6089,7 @@ msgstr ""
 #: code:addons/mail/static/src/xml/discuss.xml:198
 #, python-format
 msgid "Your message was rejected by moderator."
-msgstr ""
+msgstr "A sua mensagem foi rejeitada pelo moderador."
 
 #. module: mail
 #: code:addons/mail/models/ir_actions.py:57

@@ -3,7 +3,7 @@
 {% block head %}
     <script type="text/javascript" src="/web/static/lib/jquery/jquery.js"></script>
     <script>
-        $(async function() {
+        $(function() {
             var updating = false;
             $('#upgrade').click(function() {
                 if (!updating) {
@@ -43,7 +43,7 @@
                                 url: '/hw_proxy/get_version',
                                 timeout: 4000,
                             }).done(function(version) {
-                                if (version === {{ flashToVersion }}) {
+                                if (version == {{ flashToVersion }}) {
                                     window.location = '/';
                                 }
                             });

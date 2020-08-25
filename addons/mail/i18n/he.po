@@ -438,7 +438,7 @@ msgstr "פעיל"
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_mail_compose_message__active_domain
 msgid "Active domain"
-msgstr ""
+msgstr "דומיין פעיל"
 
 #. module: mail
 #. openerp-web
@@ -507,7 +507,7 @@ msgstr "סוג פעילות המשתמש"
 #: code:addons/mail/static/src/xml/activity.xml:37
 #, python-format
 msgid "Activity type"
-msgstr ""
+msgstr "סוג פעילות"
 
 #. module: mail
 #. openerp-web
@@ -710,7 +710,7 @@ msgstr "כל"
 #: code:addons/mail/static/src/xml/thread.xml:46
 #, python-format
 msgid "All pages:&nbsp;"
-msgstr ""
+msgstr "כל הדפים:&nbsp;"
 
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.mail_moderation_view_search
@@ -762,7 +762,7 @@ msgstr "צ'אט"
 #: model:ir.model.fields,field_description:mail.field_email_template_preview__model_id
 #: model:ir.model.fields,field_description:mail.field_mail_template__model_id
 msgid "Applies to"
-msgstr ""
+msgstr "חל על"
 
 #. module: mail
 #. openerp-web
@@ -874,6 +874,8 @@ msgid ""
 "Author of the message. If not set, email_from may hold an email address that"
 " did not match any partner."
 msgstr ""
+"מחבר ההודעה. אם לא מוגדר, email_from עשוי להכיל כתובת דוא\"ל שלא התאימה לשום"
+" לקוח/ספק."
 
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_mail_compose_message__author_avatar
@@ -1349,7 +1351,7 @@ msgstr ""
 #: code:addons/mail/static/src/xml/systray.xml:9
 #, python-format
 msgid "Conversations"
-msgstr ""
+msgstr "שיחות"
 
 #. module: mail
 #: model:ir.model.fields,help:mail.field_res_partner__message_bounce
@@ -1373,7 +1375,7 @@ msgstr ""
 #: code:addons/mail/models/mail_thread.py:400
 #, python-format
 msgid "Create a new %(document)s"
-msgstr ""
+msgstr "צור %(document)s חדש"
 
 #. module: mail
 #: code:addons/mail/models/mail_thread.py:392
@@ -1531,7 +1533,7 @@ msgstr "ערכי ברירת מחדל"
 #: model:ir.model.fields,field_description:mail.field_email_template_preview__use_default_to
 #: model:ir.model.fields,field_description:mail.field_mail_template__use_default_to
 msgid "Default recipients"
-msgstr ""
+msgstr "נמענים ברירת מחדל"
 
 #. module: mail
 #: model:ir.model.fields,help:mail.field_email_template_preview__use_default_to
@@ -1550,7 +1552,7 @@ msgstr ""
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_mail_activity_type__delay_from
 msgid "Delay Type"
-msgstr ""
+msgstr "סוג עיכוב"
 
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_mail_activity_type__delay_unit
@@ -1809,7 +1811,7 @@ msgstr "סוג יעד"
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.email_template_form
 msgid "Dynamic Placeholder Generator"
-msgstr ""
+msgstr "מחולל מציין מיקום דינמי"
 
 #. module: mail
 #. openerp-web
@@ -1828,14 +1830,14 @@ msgstr "ערוך שותפים"
 #: code:addons/mail/static/src/js/followers.js:354
 #, python-format
 msgid "Edit Subscription of "
-msgstr ""
+msgstr "ערוך מנוי של"
 
 #. module: mail
 #. openerp-web
 #: code:addons/mail/static/src/xml/followers.xml:50
 #, python-format
 msgid "Edit subscription"
-msgstr ""
+msgstr "ערוך מנוי"
 
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_mail_channel_partner__partner_email
@@ -1980,7 +1982,7 @@ msgstr "הודעות דוא\"ל"
 #: code:addons/mail/static/src/xml/composer.xml:14
 #, python-format
 msgid "Emojis"
-msgstr ""
+msgstr "אימוג'ים"
 
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.mail_resend_cancel_view_form
@@ -2064,7 +2066,7 @@ msgstr "מסננים מתקדמים..."
 #: code:addons/mail/static/src/xml/thread.xml:45
 #, python-format
 msgid "Extract pages:&nbsp;"
-msgstr ""
+msgstr "חלץ דפים:&nbsp;"
 
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_res_config_settings__fail_counter
@@ -2103,7 +2105,7 @@ msgstr ""
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_mail_notification__failure_type
 msgid "Failure type"
-msgstr ""
+msgstr "סוג שגיאה"
 
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_mail_compose_message__starred_partner_ids
@@ -2255,7 +2257,7 @@ msgstr "מאת"
 #: code:addons/mail/static/src/xml/chatter.xml:73
 #, python-format
 msgid "Full composer"
-msgstr ""
+msgstr "הגדל אזור כתיבה"
 
 #. module: mail
 #. openerp-web
@@ -2318,7 +2320,7 @@ msgstr "קבוצות"
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_mail_channel__moderation_guidelines_msg
 msgid "Guidelines"
-msgstr ""
+msgstr "הנחיות"
 
 #. module: mail
 #: code:addons/mail/models/mail_channel.py:448
@@ -2372,7 +2374,7 @@ msgstr "כותרות"
 #: model_terms:ir.ui.view,arch_db:mail.mail_channel_notify_moderation
 #: model_terms:ir.ui.view,arch_db:mail.mail_channel_send_guidelines
 msgid "Hello"
-msgstr ""
+msgstr "שלום"
 
 #. module: mail
 #: code:addons/mail/wizard/invite.py:35
@@ -2697,7 +2699,7 @@ msgstr "אשף הזמנה"
 #. module: mail
 #: selection:mail.channel,public:0
 msgid "Invited people only"
-msgstr ""
+msgstr "אנשים שהוזמנו בלבד"
 
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.mail_moderation_view_search
@@ -2767,7 +2769,7 @@ msgstr "הצטרף לקבוצה"
 #: selection:ir.actions.act_window.view,view_mode:0
 #: selection:ir.ui.view,type:0
 msgid "Kanban"
-msgstr ""
+msgstr "קנבן"
 
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_email_template_preview__lang
@@ -3246,7 +3248,7 @@ msgstr ""
 #. module: mail
 #: model:ir.model.fields,help:mail.field_mail_mail__email_to
 msgid "Message recipients (emails)"
-msgstr ""
+msgstr "נמענים (דוא\"ל)"
 
 #. module: mail
 #: model:ir.model.fields,help:mail.field_mail_mail__references
@@ -3504,7 +3506,7 @@ msgstr "שם"
 #: model:ir.model.fields,help:mail.field_mail_mail__record_name
 #: model:ir.model.fields,help:mail.field_mail_message__record_name
 msgid "Name get of the related document."
-msgstr ""
+msgstr "קבל שם למסמך הקשור."
 
 #. module: mail
 #: model:ir.model.fields,help:mail.field_email_template_preview__report_name
@@ -3549,7 +3551,7 @@ msgstr ""
 #: code:addons/mail/static/src/xml/discuss.xml:181
 #, python-format
 msgid "New Message"
-msgstr ""
+msgstr "הודעה חדשה"
 
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_mail_tracking_value__new_value_char
@@ -3589,14 +3591,14 @@ msgstr ""
 #: code:addons/mail/static/src/xml/systray.xml:24
 #, python-format
 msgid "New message"
-msgstr ""
+msgstr "הודעה חדשה"
 
 #. module: mail
 #. openerp-web
 #: code:addons/mail/static/src/xml/thread.xml:429
 #, python-format
 msgid "New messages"
-msgstr ""
+msgstr "הודעות חדשות"
 
 #. module: mail
 #. openerp-web
@@ -4066,7 +4068,7 @@ msgstr "בעלים"
 #: code:addons/mail/static/src/xml/thread.xml:40
 #, python-format
 msgid "PDF file"
-msgstr ""
+msgstr "קובץ PDF"
 
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_mail_message_subtype__parent_id
@@ -4363,7 +4365,7 @@ msgstr ""
 #. module: mail
 #: model:ir.model,name:mail.model_publisher_warranty_contract
 msgid "Publisher Warranty Contract"
-msgstr ""
+msgstr "הסכם אחריות מפרסם"
 
 #. module: mail
 #: model:ir.actions.server,name:mail.ir_cron_module_update_notification_ir_actions_server
@@ -4441,7 +4443,7 @@ msgstr "מזהה רשומת אשכול"
 #: code:addons/mail/models/mail_message.py:899
 #, python-format
 msgid "Records:"
-msgstr ""
+msgstr "רשומות:"
 
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_mail_mail__references
@@ -4458,7 +4460,7 @@ msgstr ""
 #: code:addons/mail/static/src/xml/discuss.xml:186
 #, python-format
 msgid "Reject"
-msgstr ""
+msgstr "דחה"
 
 #. module: mail
 #. openerp-web
@@ -4730,7 +4732,7 @@ msgstr ""
 #: code:addons/mail/static/src/xml/discuss.xml:183
 #, python-format
 msgid "Select All"
-msgstr ""
+msgstr "בחר  הכל"
 
 #. module: mail
 #. openerp-web
@@ -5118,7 +5120,7 @@ msgstr "תבניות"
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.mail_channel_notify_moderation
 msgid "Thank you!"
-msgstr ""
+msgstr "תודה!"
 
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.mail_bounce_catchall
@@ -5193,6 +5195,9 @@ msgid ""
 "\n"
 "(Document type: %s, Operation: %s)"
 msgstr ""
+"לא ניתן להשלים את הפעולה המבוקשת עקב מגבלות אבטחה. אנא צור קשר עם מנהל המערכת שלך.\n"
+"\n"
+"(סוג מסמך: %s, פעולה: %s)"
 
 #. module: mail
 #: model:ir.model.fields,help:mail.field_mail_shortcode__source
@@ -5250,7 +5255,7 @@ msgstr "אל"
 #: model:ir.model.fields,field_description:mail.field_email_template_preview__email_to
 #: model:ir.model.fields,field_description:mail.field_mail_template__email_to
 msgid "To (Emails)"
-msgstr ""
+msgstr "אל (דוא\"ל)"
 
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_email_template_preview__partner_to
@@ -5418,7 +5423,7 @@ msgstr ""
 #: code:addons/mail/models/mail_message.py:34
 #, python-format
 msgid "Unable to post message, please configure the sender's email address."
-msgstr ""
+msgstr "אין אפשרות לפרסם הודעה, אנא הגדר את כתובת הדוא\"ל של השולח."
 
 #. module: mail
 #. openerp-web
@@ -5547,14 +5552,14 @@ msgstr "עדכן את הרשומה"
 #: code:addons/mail/static/src/xml/thread.xml:531
 #, python-format
 msgid "Uploaded"
-msgstr ""
+msgstr "הועלה"
 
 #. module: mail
 #. openerp-web
 #: code:addons/mail/static/src/xml/thread.xml:523
 #, python-format
 msgid "Uploading"
-msgstr ""
+msgstr "מעלה"
 
 #. module: mail
 #. openerp-web
@@ -5576,7 +5581,7 @@ msgstr ""
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_mail_compose_message__use_active_domain
 msgid "Use active domain"
-msgstr ""
+msgstr "השתמש בדומיין פעיל"
 
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_mail_compose_message__template_id
@@ -5685,7 +5690,7 @@ msgstr "סוג תצוגה"
 #: code:addons/mail/static/src/xml/chatter.xml:99
 #, python-format
 msgid "View all the attachments of the current record"
-msgstr ""
+msgstr "צפה בכל הקבצים המצורפים של הרשומה הנוכחית"
 
 #. module: mail
 #. openerp-web
@@ -5751,7 +5756,7 @@ msgstr ""
 #. module: mail
 #: model:ir.model.fields,help:mail.field_mail_compose_message__is_log
 msgid "Whether the message is an internal note (comment mode only)"
-msgstr ""
+msgstr "האם ההודעה היא הערה פנימית (מצב תגובה בלבד)"
 
 #. module: mail
 #: model:ir.model.fields,help:mail.field_ir_model__is_mail_thread
@@ -5869,6 +5874,14 @@ msgstr ""
 msgid ""
 "You cannot delete those groups, as the Whole Company group is required by "
 "other modules."
+msgstr ""
+
+#. module: mail
+#: code:addons/mail/models/mail_alias.py:89
+#, python-format
+msgid ""
+"You cannot use anything else than unaccented latin characters in the alias "
+"address."
 msgstr ""
 
 #. module: mail
@@ -6062,13 +6075,13 @@ msgstr ""
 #: code:addons/mail/static/src/xml/thread.xml:45
 #, python-format
 msgid "e.g. 1-5, 7, 8-9"
-msgstr ""
+msgstr "למשל: 1-5, 7, 8-9"
 
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.mail_activity_view_form_popup
 #: model_terms:ir.ui.view,arch_db:mail.view_server_action_form_template
 msgid "e.g. Discuss proposal"
-msgstr ""
+msgstr "למשל: לדון בהצעה"
 
 #. module: mail
 #. openerp-web

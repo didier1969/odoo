@@ -3688,7 +3688,7 @@ msgstr "Přeskočit"
 #. module: point_of_sale
 #: model:ir.model.fields,field_description:point_of_sale.field_pos_config__iface_print_skip_screen
 msgid "Skip Preview Screen"
-msgstr ""
+msgstr "Přeskočit obrazovku náhledu"
 
 #. module: point_of_sale
 #. openerp-web
@@ -4070,6 +4070,15 @@ msgstr "Objednávka nemohla být odeslána na server z důvodu neznámé chyby"
 msgid ""
 "The order has been synchronized earlier. Please make the invoice from the "
 "backend for the order: "
+msgstr ""
+
+#. module: point_of_sale
+#. openerp-web
+#: code:addons/point_of_sale/static/src/xml/pos.xml:715
+#, python-format
+msgid ""
+"The order has been synchronized earlier. To print the invoice please refer "
+"to the order in the backend"
 msgstr ""
 
 #. module: point_of_sale

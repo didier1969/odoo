@@ -508,7 +508,7 @@ class StockMove(models.Model):
                 else:
                     raise UserError(_('You cannot unreserve a stock move that has been set to \'Done\'.'))
             moves_to_unreserve |= move
-        moves_to_unreserve.mapped('move_line_ids').unlink()
+        moves_to_unreserve.with_context(prefetch_fields=False).mapped('move_line_ids').unlink()
         return True
 
     def _push_apply(self):
@@ -875,11 +875,12 @@ class StockMove(models.Model):
                 taken_quantity = 0
 
         try:
-            if not float_is_zero(taken_quantity, precision_rounding=self.product_id.uom_id.rounding):
-                quants = self.env['stock.quant']._update_reserved_quantity(
-                    self.product_id, location_id, taken_quantity, lot_id=lot_id,
-                    package_id=package_id, owner_id=owner_id, strict=strict
-                )
+            with self.env.cr.savepoint():
+                if not float_is_zero(taken_quantity, precision_rounding=self.product_id.uom_id.rounding):
+                    quants = self.env['stock.quant']._update_reserved_quantity(
+                        self.product_id, location_id, taken_quantity, lot_id=lot_id,
+                        package_id=package_id, owner_id=owner_id, strict=strict
+                    )
         except UserError:
             taken_quantity = 0
 
@@ -1137,15 +1138,6 @@ class StockMove(models.Model):
                 # Need to do some kind of conversion here
                 qty_split = move.product_uom._compute_quantity(move.product_uom_qty - move.quantity_done, move.product_id.uom_id, rounding_method='HALF-UP')
                 new_move = move._split(qty_split)
-                for move_line in move.move_line_ids:
-                    if move_line.product_qty and move_line.qty_done:
-                        # FIXME: there will be an issue if the move was partially available
-                        # By decreasing `product_qty`, we free the reservation.
-                        # FIXME: if qty_done > product_qty, this could raise if nothing is in stock
-                        try:
-                            move_line.write({'product_uom_qty': move_line.qty_done})
-                        except UserError:
-                            pass
                 move._unreserve_initial_demand(new_move)
         moves_todo.mapped('move_line_ids')._action_done()
         # Check the consistency of the result packages; there should be an unique location across
@@ -1172,7 +1164,7 @@ class StockMove(models.Model):
         if any(move.state not in ('draft', 'cancel') for move in self):
             raise UserError(_('You can only delete draft moves.'))
         # With the non plannified picking, draft moves could have some move lines.
-        self.mapped('move_line_ids').unlink()
+        self.with_context(prefetch_fields=False).mapped('move_line_ids').unlink()
         return super(StockMove, self).unlink()
 
     def _prepare_move_split_vals(self, qty):
