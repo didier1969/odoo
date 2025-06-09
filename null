@@ -1,0 +1,465 @@
+    [33mwarning:[0m variable "opts" is unused (if the variable is not meant to be used, prefix it with an underscore)
+    │
+ 81 │   def init(opts) do
+    │ [33m           ~~~~[0m
+    │
+    └─ lib/jss/actors/swap_evaluator.ex:81:12: JSS.Actors.SwapEvaluator.init/1
+
+     [33mwarning:[0m clauses with the same name and arity (number of arguments) should be grouped together, "def handle_cast/2" was previously defined (lib/jss/actors/swap_evaluator.ex:111)
+     │
+ 202 │   def handle_cast({:update_planning_state, new_state}, state) do
+     │ [33m      ~[0m
+     │
+     └─ lib/jss/actors/swap_evaluator.ex:202:7
+
+     [33mwarning:[0m clauses with the same name and arity (number of arguments) should be grouped together, "def handle_call/3" was previously defined (lib/jss/actors/swap_evaluator.ex:147)
+     │
+ 219 │   def handle_call(:get_statistics, _from, state) do
+     │ [33m      ~[0m
+     │
+     └─ lib/jss/actors/swap_evaluator.ex:219:7
+
+     [33mwarning:[0m variable "reply_to" is unused (if the variable is not meant to be used, prefix it with an underscore)
+     │
+ 334 │   defp start_evaluation_task(planning_state, order_a_id, order_b_id, reply_to) do
+     │ [33m                                                                     ~~~~~~~~[0m
+     │
+     └─ lib/jss/actors/swap_evaluator.ex:334:70: JSS.Actors.SwapEvaluator.start_evaluation_task/4
+
+     [33mwarning:[0m variable "cache" is unused (if the variable is not meant to be used, prefix it with an underscore)
+     │
+ 399 │   defp selective_cache_invalidation(cache, _new_state) do
+     │ [33m                                    ~~~~~[0m
+     │
+     └─ lib/jss/actors/swap_evaluator.ex:399:37: JSS.Actors.SwapEvaluator.selective_cache_invalidation/2
+
+     [33mwarning:[0m clauses with the same name and arity (number of arguments) should be grouped together, "def handle_call/3" was previously defined (lib/jss/actors/swap_evaluator.ex:147)
+     │
+ 480 │   def handle_call({:evaluate_multiple_swaps, swap_list}, _from, state) do
+     │ [33m      ~[0m
+     │
+     └─ lib/jss/actors/swap_evaluator.ex:480:7
+
+     [33mwarning:[0m clauses with the same name and arity (number of arguments) should be grouped together, "def handle_cast/2" was previously defined (lib/jss/actors/swap_evaluator.ex:111)
+     │
+ 546 │   def handle_cast({:preheat_cache, order_ids}, state) do
+     │ [33m      ~[0m
+     │
+     └─ lib/jss/actors/swap_evaluator.ex:546:7
+
+     [33mwarning:[0m clauses with the same name and arity (number of arguments) should be grouped together, "def handle_call/3" was previously defined (lib/jss/actors/swap_evaluator.ex:147)
+     │
+ 587 │   def handle_call(:diagnose_cache_performance, _from, state) do
+     │ [33m      ~[0m
+     │
+     └─ lib/jss/actors/swap_evaluator.ex:587:7
+
+    [33mwarning:[0m unused alias SharedPlanningState
+    │
+ 10 │   alias JSS.Core.SharedPlanningState
+    │ [33m  ~[0m
+    │
+    └─ lib/jss/actors/swap_evaluator.ex:10:3
+
+    [33mwarning:[0m variable "changed" is unused (if the variable is not meant to be used, prefix it with an underscore)
+    │
+ 37 │   def config_change(changed, _new, removed) do
+    │ [33m                    ~~~~~~~[0m
+    │
+    └─ lib/jss/application.ex:37:21: JSS.Application.config_change/3
+
+    [33mwarning:[0m variable "removed" is unused (if the variable is not meant to be used, prefix it with an underscore)
+    │
+ 37 │   def config_change(changed, _new, removed) do
+    │ [33m                                   ~~~~~~~[0m
+    │
+    └─ lib/jss/application.ex:37:36: JSS.Application.config_change/3
+
+     [33mwarning:[0m variable "reason" is unused (if the variable is not meant to be used, prefix it with an underscore)
+     │
+ 217 │   def set_status(machine, new_status, reason \\ nil) do
+     │ [33m                                      ~~~~~~[0m
+     │
+     └─ lib/jss/core/machine.ex:217:39: JSS.Core.Machine.set_status/3
+
+     [33mwarning:[0m variable "reason" is unused (if the variable is not meant to be used, prefix it with an underscore)
+     │
+ 174 │   def block_tasks(state, task_ids, reason \\ :external_event) when is_list(task_ids) do
+     │ [33m                                   ~~~~~~[0m
+     │
+     └─ lib/jss/core/shared_planning_state.ex:174:36: JSS.Core.SharedPlanningState.block_tasks/3
+
+     [33mwarning:[0m variable "order" is unused (if the variable is not meant to be used, prefix it with an underscore)
+     │
+ 377 │   defp calculate_order_task_times(state, order) do
+     │ [33m                                         ~~~~~[0m
+     │
+     └─ lib/jss/core/shared_planning_state.ex:377:42: JSS.Core.SharedPlanningState.calculate_order_task_times/2
+
+     [33mwarning:[0m variable "state" is unused (if the variable is not meant to be used, prefix it with an underscore)
+     │
+ 377 │   defp calculate_order_task_times(state, order) do
+     │ [33m                                  ~~~~~[0m
+     │
+     └─ lib/jss/core/shared_planning_state.ex:377:35: JSS.Core.SharedPlanningState.calculate_order_task_times/2
+
+     [33mwarning:[0m variable "machine_id" is unused (if the variable is not meant to be used, prefix it with an underscore)
+     │
+ 383 │   defp calculate_machine_load(state, machine_id) do
+     │ [33m                                     ~~~~~~~~~~[0m
+     │
+     └─ lib/jss/core/shared_planning_state.ex:383:38: JSS.Core.SharedPlanningState.calculate_machine_load/2
+
+     [33mwarning:[0m variable "state" is unused (if the variable is not meant to be used, prefix it with an underscore)
+     │
+ 383 │   defp calculate_machine_load(state, machine_id) do
+     │ [33m                              ~~~~~[0m
+     │
+     └─ lib/jss/core/shared_planning_state.ex:383:31: JSS.Core.SharedPlanningState.calculate_machine_load/2
+
+     [33mwarning:[0m variable "state" is unused (if the variable is not meant to be used, prefix it with an underscore)
+     │
+ 389 │   defp find_critical_path_tasks(state) do
+     │ [33m                                ~~~~~[0m
+     │
+     └─ lib/jss/core/shared_planning_state.ex:389:33: JSS.Core.SharedPlanningState.find_critical_path_tasks/1
+
+     [33mwarning:[0m variable "state" is unused (if the variable is not meant to be used, prefix it with an underscore)
+     │
+ 422 │   defp validate_temporal_constraints(state) do
+     │ [33m                                     ~~~~~[0m
+     │
+     └─ lib/jss/core/shared_planning_state.ex:422:38: JSS.Core.SharedPlanningState.validate_temporal_constraints/1
+
+     [33mwarning:[0m clauses with the same name and arity (number of arguments) should be grouped together, "defp get_current_algorithm_name/1" was previously defined (lib/jss/optimization/coordinator.ex:613)
+     │
+ 752 │   defp get_current_algorithm_name(state) do
+     │ [33m       ~[0m
+     │
+     └─ lib/jss/optimization/coordinator.ex:752:8
+
+     [33mwarning:[0m clauses with the same name and arity (number of arguments) should be grouped together, "defp get_algorithm_time_budget/1" was previously defined (lib/jss/optimization/coordinator.ex:617)
+     │
+ 756 │   defp get_algorithm_time_budget(algorithm_name) do
+     │ [33m       ~[0m
+     │
+     └─ lib/jss/optimization/coordinator.ex:756:8
+
+     [33mwarning:[0m clauses with the same name and arity (number of arguments) should be grouped together, "defp calculate_adjusted_timeout/1" was previously defined (lib/jss/optimization/coordinator.ex:626)
+     │
+ 765 │   defp calculate_adjusted_timeout(new_budget_ms) do
+     │ [33m       ~[0m
+     │
+     └─ lib/jss/optimization/coordinator.ex:765:8
+
+     [33mwarning:[0m clauses with the same name and arity (number of arguments) should be grouped together, "defp calculate_remaining_time/1" was previously defined (lib/jss/optimization/coordinator.ex:632)
+     │
+ 771 │   defp calculate_remaining_time(algorithm_name) do
+     │ [33m       ~[0m
+     │
+     └─ lib/jss/optimization/coordinator.ex:771:8
+
+     [33mwarning:[0m clauses with the same name and arity (number of arguments) should be grouped together, "defp send_to_current_algorithm/2" was previously defined (lib/jss/optimization/coordinator.ex:638)
+     │
+ 777 │   defp send_to_current_algorithm(state, message) do
+     │ [33m       ~[0m
+     │
+     └─ lib/jss/optimization/coordinator.ex:777:8
+
+     [33mwarning:[0m clauses with the same name and arity (number of arguments) should be grouped together, "defp get_current_score/1" was previously defined (lib/jss/optimization/coordinator.ex:644)
+     │
+ 783 │   defp get_current_score(state) do
+     │ [33m       ~[0m
+     │
+     └─ lib/jss/optimization/coordinator.ex:783:8
+
+     [33mwarning:[0m clauses with the same name and arity (number of arguments) should be grouped together, "defp get_shared_state_info/1" was previously defined (lib/jss/optimization/coordinator.ex:651)
+     │
+ 790 │   defp get_shared_state_info(nil), do: %{status: :no_state}
+     │ [33m       ~[0m
+     │
+     └─ lib/jss/optimization/coordinator.ex:790:8
+
+     [33mwarning:[0m clauses with the same name and arity (number of arguments) should be grouped together, "defp get_memory_usage/0" was previously defined (lib/jss/optimization/coordinator.ex:664)
+     │
+ 803 │   defp get_memory_usage do
+     │ [33m       ~[0m
+     │
+     └─ lib/jss/optimization/coordinator.ex:803:8
+
+     [33mwarning:[0m clauses with the same name and arity (number of arguments) should be grouped together, "defp get_uptime_seconds/0" was previously defined (lib/jss/optimization/coordinator.ex:669)
+     │
+ 808 │   defp get_uptime_seconds do
+     │ [33m       ~[0m
+     │
+     └─ lib/jss/optimization/coordinator.ex:808:8
+
+     [33mwarning:[0m clauses with the same name and arity (number of arguments) should be grouped together, "defp record_algorithm_error/3" was previously defined (lib/jss/optimization/coordinator.ex:674)
+     │
+ 813 │   defp record_algorithm_error(state, algorithm_name, error_reason) do
+     │ [33m       ~[0m
+     │
+     └─ lib/jss/optimization/coordinator.ex:813:8
+
+     [33mwarning:[0m clauses with the same name and arity (number of arguments) should be grouped together, "defp should_continue_after_error/1" was previously defined (lib/jss/optimization/coordinator.ex:698)
+     │
+ 837 │   defp should_continue_after_error(error_reason) do
+     │ [33m       ~[0m
+     │
+     └─ lib/jss/optimization/coordinator.ex:837:8
+
+     [33mwarning:[0m clauses with the same name and arity (number of arguments) should be grouped together, "defp update_algorithm_stats/3" was previously defined (lib/jss/optimization/coordinator.ex:708)
+     │
+ 847 │   defp update_algorithm_stats(current_stats, new_statistics, result_type) do
+     │ [33m       ~[0m
+     │
+     └─ lib/jss/optimization/coordinator.ex:847:8
+
+     [33mwarning:[0m clauses with the same name and arity (number of arguments) should be grouped together, "defp min_score/2" was previously defined (lib/jss/optimization/coordinator.ex:734)
+     │
+ 873 │   defp min_score(nil, score), do: score
+     │ [33m       ~[0m
+     │
+     └─ lib/jss/optimization/coordinator.ex:873:8
+
+     [33mwarning:[0m clauses with the same name and arity (number of arguments) should be grouped together, "defp max_score/2" was previously defined (lib/jss/optimization/coordinator.ex:737)
+     │
+ 876 │   defp max_score(nil, score), do: score
+     │ [33m       ~[0m
+     │
+     └─ lib/jss/optimization/coordinator.ex:876:8
+
+     [33mwarning:[0m clauses with the same name and arity (number of arguments) should be grouped together, "defp get_last_activity_timestamp/1" was previously defined (lib/jss/optimization/coordinator.ex:740)
+     │
+ 879 │   defp get_last_activity_timestamp(state) do
+     │ [33m       ~[0m
+     │
+     └─ lib/jss/optimization/coordinator.ex:879:8
+
+     [33mwarning:[0m function get_last_activity_timestamp/1 is unused
+     │
+ 740 │   defp get_last_activity_timestamp(state) do
+     │ [33m       ~[0m
+     │
+     └─ lib/jss/optimization/coordinator.ex:740:8: JSS.Optimization.Coordinator (module)
+
+    [33mwarning:[0m unused alias CostCalculator
+    │
+ 11 │   alias JSS.Optimization.{CostCalculator, SimulatedAnnealing}
+    │ [33m  ~[0m
+    │
+    └─ lib/jss/optimization/coordinator.ex:11:3
+
+     [33mwarning:[0m variable "machine_id" is unused (if the variable is not meant to be used, prefix it with an underscore)
+     │
+ 109 │     |> Enum.reduce(0.0, fn {task_id, machine_id}, acc ->
+     │ [33m                                     ~[0m
+     │
+     └─ lib/jss/optimization/cost_calculator.ex:109:38: JSS.Optimization.CostCalculator.calculate_delays_cost/2
+
+     [33mwarning:[0m variable "machine_id" is unused (if the variable is not meant to be used, prefix it with an underscore)
+     │
+ 125 │     |> Enum.reduce(0.0, fn {task_id, machine_id}, acc ->
+     │ [33m                                     ~[0m
+     │
+     └─ lib/jss/optimization/cost_calculator.ex:125:38: JSS.Optimization.CostCalculator.calculate_advances_cost/2
+
+     [33mwarning:[0m variable "setup_time_seconds" is unused (if the variable is not meant to be used, prefix it with an underscore)
+     │
+ 227 │       setup_time_seconds = Machine.get_setup_time(machine,
+     │ [33m      ~[0m
+     │
+     └─ lib/jss/optimization/cost_calculator.ex:227:7: JSS.Optimization.CostCalculator.calculate_machine_setup_cost/3
+
+     [33mwarning:[0m variable "article" is unused (if the variable is not meant to be used, prefix it with an underscore)
+     │
+ 242 │   defp is_superior_machine?(machine, article) do
+     │ [33m                                     ~~~~~~~[0m
+     │
+     └─ lib/jss/optimization/cost_calculator.ex:242:38: JSS.Optimization.CostCalculator.is_superior_machine?/2
+
+    [33mwarning:[0m unused alias Article
+    │
+  8 │   alias JSS.Core.{SharedPlanningState, Task, Machine, Order, Pool, Article}
+    │ [33m  ~[0m
+    │
+    └─ lib/jss/optimization/cost_calculator.ex:8:3
+
+    [33mwarning:[0m unused alias Order
+    │
+  8 │   alias JSS.Core.{SharedPlanningState, Task, Machine, Order, Pool, Article}
+    │ [33m  ~[0m
+    │
+    └─ lib/jss/optimization/cost_calculator.ex:8:3
+
+    [33mwarning:[0m unused alias Pool
+    │
+  8 │   alias JSS.Core.{SharedPlanningState, Task, Machine, Order, Pool, Article}
+    │ [33m  ~[0m
+    │
+    └─ lib/jss/optimization/cost_calculator.ex:8:3
+
+     [33mwarning:[0m variable "breakdown" is unused (if the variable is not meant to be used, prefix it with an underscore)
+     │
+ 282 │       {:ok, delta_score, breakdown} ->
+     │ [33m                         ~[0m
+     │
+     └─ lib/jss/optimization/simulated_annealing.ex:282:26: JSS.Optimization.SimulatedAnnealing.evaluate_move/2
+
+     [33mwarning:[0m variable "breakdown" is unused (if the variable is not meant to be used, prefix it with an underscore)
+     │
+ 295 │       {:ok, delta_score, breakdown} ->
+     │ [33m                         ~[0m
+     │
+     └─ lib/jss/optimization/simulated_annealing.ex:295:26: JSS.Optimization.SimulatedAnnealing.evaluate_move/2
+
+     [33mwarning:[0m variable "move" is unused (if the variable is not meant to be used, prefix it with an underscore)
+     │
+ 317 │   defp accept_move(state, move, delta_score, new_planning_state) do
+     │ [33m                          ~~~~[0m
+     │
+     └─ lib/jss/optimization/simulated_annealing.ex:317:27: JSS.Optimization.SimulatedAnnealing.accept_move/4
+
+     [33mwarning:[0m variable "delta_score" is unused (if the variable is not meant to be used, prefix it with an underscore)
+     │
+ 345 │   defp reject_move(state, move, delta_score) do
+     │ [33m                                ~~~~~~~~~~~[0m
+     │
+     └─ lib/jss/optimization/simulated_annealing.ex:345:33: JSS.Optimization.SimulatedAnnealing.reject_move/3
+
+     [33mwarning:[0m variable "move" is unused (if the variable is not meant to be used, prefix it with an underscore)
+     │
+ 345 │   defp reject_move(state, move, delta_score) do
+     │ [33m                          ~~~~[0m
+     │
+     └─ lib/jss/optimization/simulated_annealing.ex:345:27: JSS.Optimization.SimulatedAnnealing.reject_move/3
+
+    [33mwarning:[0m unused alias SwapEvaluator
+    │
+ 12 │   alias JSS.Actors.SwapEvaluator
+    │ [33m  ~[0m
+    │
+    └─ lib/jss/optimization/simulated_annealing.ex:12:3
+
+     [33mwarning:[0m the following clause will never match:
+
+         false
+
+     because it attempts to match on the result of:
+
+         should_continue?(state)
+
+     which has type:
+
+         dynamic(true)
+
+     typing violation found at:
+     │
+ 101 │       false ->
+     │       [33m~~~~~~~~[0m
+     │
+     └─ lib/jss/optimization/simulated_annealing.ex:101: JSS.Optimization.SimulatedAnnealing.handle_info/2
+
+     [33mwarning:[0m Task.compatible_with_machine_type?/2 is undefined or private
+     │
+ 275 │       Task.compatible_with_machine_type?(task, machine.machine_type)
+     │ [33m           ~[0m
+     │
+     └─ lib/jss/optimization/simulated_annealing.ex:275:12: JSS.Optimization.SimulatedAnnealing.find_compatible_machines/2
+
+     [33mwarning:[0m variable "machines" is unused (if the variable is not meant to be used, prefix it with an underscore)
+     │
+ 206 │   defp generate_orders_and_tasks(order_count, articles, machines) do
+     │ [33m                                                        ~~~~~~~~[0m
+     │
+     └─ lib/jss/test/optimization_pipeline_test.ex:206:57: JSS.Test.OptimizationPipelineTest.generate_orders_and_tasks/3
+
+     [33mwarning:[0m Logger.warn/1 is deprecated. Use Logger.warning/2 instead
+     │
+ 302 │       Logger.warn("⚠️  Not enough orders for SwapEvaluator test")
+     │ [33m             ~[0m
+     │
+     └─ lib/jss/test/optimization_pipeline_test.ex:302:14: JSS.Test.OptimizationPipelineTest.test_swap_evaluator/1
+
+     [33mwarning:[0m Logger.warn/1 is deprecated. Use Logger.warning/2 instead
+     │
+ 295 │           Logger.warn("⚠️  SwapEvaluator sync test failed: #{reason}")
+     │ [33m                 ~[0m
+     │
+     └─ lib/jss/test/optimization_pipeline_test.ex:295:18: JSS.Test.OptimizationPipelineTest.test_swap_evaluator/1
+
+     [33mwarning:[0m Logger.warn/1 is deprecated. Use Logger.warning/2 instead
+     │
+ 363 │           Logger.warn("⚠️  Optimization cycle timeout")
+     │ [33m                 ~[0m
+     │
+     └─ lib/jss/test/optimization_pipeline_test.ex:363:18: JSS.Test.OptimizationPipelineTest.wait_for_cycle_completion_loop/2
+
+     [33mwarning:[0m Logger.warn/1 is deprecated. Use Logger.warning/2 instead
+     │
+ 371 │         Logger.warn("⚠️  Unexpected coordinator status: #{other_status}")
+     │ [33m               ~[0m
+     │
+     └─ lib/jss/test/optimization_pipeline_test.ex:371:16: JSS.Test.OptimizationPipelineTest.wait_for_cycle_completion_loop/2
+
+     [33mwarning:[0m the following pattern will never match:
+
+         {:ok, updated_order} = JSS.Core.Order.add_task(acc_order, task_id)
+
+     because the right-hand side has type:
+
+         dynamic(
+           %{
+             ...,
+             task_ids: list(term(), term()),
+             updated_at: %DateTime{
+               calendar: term(),
+               day: term(),
+               hour: term(),
+               microsecond: term(),
+               minute: term(),
+               month: term(),
+               second: term(),
+               std_offset: term(),
+               time_zone: term(),
+               utc_offset: term(),
+               year: term(),
+               zone_abbr: term()
+             }
+           } or {:error, :task_already_exists}
+         )
+
+     where "acc_order" was given the type:
+
+         # type: dynamic()
+         # from: lib/jss/test/optimization_pipeline_test.ex:256:76
+         acc_order
+
+     where "task_id" was given the type:
+
+         # type: dynamic()
+         # from: lib/jss/test/optimization_pipeline_test.ex:256:67
+         task_id
+
+     typing violation found at:
+     │
+ 257 │           {:ok, updated_order} = Order.add_task(acc_order, task_id)
+     │ [33m                               ~[0m
+     │
+     └─ lib/jss/test/optimization_pipeline_test.ex:257:32: JSS.Test.OptimizationPipelineTest.generate_orders_and_tasks/3
+
+     [33mwarning:[0m JSS.Optimization.Coordinator.restart_optimization_cycle/0 is undefined or private. Did you mean:
+
+           * start_optimization/1
+
+     │
+ 335 │       :ok = Coordinator.restart_optimization_cycle()
+     │ [33m                        ~[0m
+     │
+     └─ lib/jss/test/optimization_pipeline_test.ex:335:25: JSS.Test.OptimizationPipelineTest.monitor_optimization_cycles/3
+
+[31m[1m** (Mix) Could not start application job_shop_scheduler: exited in: JobShopScheduler.Application.start(:normal, [])
+    ** (EXIT) an exception was raised:
+        ** (UndefinedFunctionError) function JobShopScheduler.Application.start/2 is undefined (module JobShopScheduler.Application is not available)
+            JobShopScheduler.Application.start(:normal, [])
+            (kernel 10.2.7) application_master.erl:295: :application_master.start_it_old/4[0m
