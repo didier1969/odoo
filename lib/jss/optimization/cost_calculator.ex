@@ -160,25 +160,51 @@ defmodule JSS.Optimization.CostCalculator do
       machine = state.machines[machine_id]
       article = state.articles[task.article_id]
 
-      optimal_pool = state.pools[article.optimal_pool_id]
-      machine_pool = state.pools[machine.pool_id]
+      # Vérifications de sécurité pour éviter les erreurs nil
+      optimal_pool_id = article.optimal_pool_id
+      machine_pool_id = machine.pool_id
 
-      if optimal_pool.pool_id != machine_pool.pool_id do
-        # Calcul du surcoût de spillover
-        task_duration_hours = Task.get_duration_seconds(task) / 3600.0
-        rate_difference = machine_pool.technology_rates[machine.machine_type] -
-                         optimal_pool.technology_rates[machine.machine_type]
-        spillover_cost = task_duration_hours * max(0.0, rate_difference)
-        acc + spillover_cost
+      if optimal_pool_id && machine_pool_id && optimal_pool_id != machine_pool_id do
+        # Les pools existent et sont différents
+        optimal_pool = state.pools[optimal_pool_id]
+        machine_pool = state.pools[machine_pool_id]
+
+        if optimal_pool && machine_pool do
+          # Calcul du surcoût de spillover avec protection contre nil
+          task_duration_hours = Task.get_duration_seconds(task) / 3600.0
+
+          # Récupération sécurisée des tarifs
+          machine_rate = get_safe_technology_rate(machine_pool, machine.machine_type)
+          optimal_rate = get_safe_technology_rate(optimal_pool, machine.machine_type)
+
+          # Calcul seulement si on a des tarifs valides
+          if machine_rate && optimal_rate do
+            rate_difference = machine_rate - optimal_rate
+            spillover_cost = task_duration_hours * max(0.0, rate_difference)
+            acc + spillover_cost
+          else
+            acc  # Pas de surcoût si les tarifs ne sont pas définis
+          end
+        else
+          acc
+        end
       else
-        acc
+        acc  # Pas de surcoût si même pool ou pools manquants
       end
     end)
   end
 
-  # Calcul du surcoût hiérarchique (machine supérieure)
+  # Fonction helper pour récupérer les tarifs de manière sécurisée
+  defp get_safe_technology_rate(pool, machine_type) do
+    case pool.technology_rates do
+      nil -> nil
+      rates_map -> Map.get(rates_map, machine_type)
+    end
+  end
+
+  # Correction aussi de la fonction calculate_hierarchy_overcost pour être cohérente
   defp calculate_hierarchy_overcost(state) do
-    hierarchy_flat_rate = ParameterManager.get("optimizer", "hierarchy_flat_rate")
+    hierarchy_flat_rate = ParameterManager.get("optimizer", "hierarchy_flat_rate") || 0.0
 
     state.task_assignments
     |> Enum.reduce(0.0, fn {task_id, machine_id}, acc ->
@@ -186,8 +212,13 @@ defmodule JSS.Optimization.CostCalculator do
       machine = state.machines[machine_id]
       article = state.articles[task.article_id]
 
-      if is_superior_machine?(machine, article) do
-        acc + hierarchy_flat_rate
+      # Vérification sécurisée pour éviter les erreurs
+      if task && machine && article do
+        if is_superior_machine?(machine, article) do
+          acc + hierarchy_flat_rate
+        else
+          acc
+        end
       else
         acc
       end
@@ -217,38 +248,38 @@ defmodule JSS.Optimization.CostCalculator do
       |> Enum.sort_by(fn {_task, index_position} -> index_position end)
       |> Enum.map(fn {task, _} -> task end)
 
-    # Calculer les changements d'outils séquentiels
+    # Calculer les changements d'outils séquentiels avec protection
     sorted_tasks
     |> Enum.chunk_every(2, 1, :discard)
     |> Enum.reduce(0.0, fn [prev_task, next_task], acc ->
+      # Vérifications de sécurité
       prev_article = state.articles[prev_task.article_id]
       next_article = state.articles[next_task.article_id]
 
-      setup_time_seconds = Machine.get_setup_time(machine,
-        prev_article.article_id,
-        next_article.article_id
-      )
-
-      setup_cost = Machine.calculate_setup_cost(machine,
-        prev_article.article_id,
-        next_article.article_id
-      )
-
-      acc + setup_cost
+      if prev_article && next_article do
+        setup_cost = Machine.calculate_setup_cost(machine,
+          prev_article.article_id,
+          next_article.article_id
+        )
+        acc + (setup_cost || 0.0)  # Protection contre nil
+      else
+        acc
+      end
     end)
   end
 
   # Vérifie si une machine est de niveau supérieur pour un article
   defp is_superior_machine?(machine, article) do
-    # Logique à définir : par exemple, si le type de machine est dans une hiérarchie
-    # Pour simplifier, on considère qu'une machine est supérieure si son taux horaire
-    # est significativement plus élevé que la moyenne pour ce type d'article
+    # Logique améliorée avec protection contre nil
+    machine_rate = machine.technology_rate_chf_per_hour || 0.0
 
-    avg_rate = ParameterManager.get("demo", "demo_technology_rate_min") +
-              (ParameterManager.get("demo", "demo_technology_rate_max") -
-               ParameterManager.get("demo", "demo_technology_rate_min")) / 2
+    # Récupération sécurisée des paramètres
+    avg_rate_min = ParameterManager.get("demo", "demo_technology_rate_min") || 50.0
+    avg_rate_max = ParameterManager.get("demo", "demo_technology_rate_max") || 200.0
+    avg_rate = (avg_rate_min + avg_rate_max) / 2
 
-    machine.technology_rate_chf_per_hour > avg_rate * 1.2
+    # Machine supérieure si son taux est significativement plus élevé
+    machine_rate > avg_rate * 1.2
   end
 
   @doc """

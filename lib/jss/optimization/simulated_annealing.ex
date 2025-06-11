@@ -272,7 +272,7 @@ defmodule JSS.Optimization.SimulatedAnnealing do
   defp find_compatible_machines(state, task) do
     state.shared_state.machines
     |> Enum.filter(fn {_machine_id, machine} ->
-      Task.compatible_with_machine_type?(task, machine.machine_type)
+      JSS.Core.Task.compatible_with_machine_type?(task, machine.machine_type)
     end)
     |> Enum.map(fn {machine_id, _machine} -> machine_id end)
   end

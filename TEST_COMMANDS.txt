@@ -1,0 +1,3 @@
+# Test direct dans iex:
+JSS.Optimization.Coordinator.get_status()
+JSS.Test.OptimizationPipelineTest.run_complete_test(machine_count: 3, order_count: 5)

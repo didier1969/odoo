@@ -91,6 +91,13 @@ defmodule JSS.Optimization.Coordinator do
     GenServer.cast(__MODULE__, {:update_planning_state, new_state, reason})
   end
 
+  @doc """
+  Redémarre un nouveau cycle d'optimisation après arrêt.
+  """
+  def restart_optimization_cycle do
+    GenServer.call(__MODULE__, :restart_cycle)
+  end
+
   # Callbacks GenServer
 
   @impl true
@@ -226,6 +233,31 @@ defmodule JSS.Optimization.Coordinator do
     }
 
     {:reply, detailed_stats, state}
+  end
+
+  @impl true
+  def handle_call(:restart_cycle, _from, state) do
+    case state.coordinator_status do
+      :idle ->
+        case state.shared_state do
+          nil ->
+            {:reply, {:error, :no_planning_state}, state}
+          _planning_state ->
+            case start_current_algorithm(%{state |
+              coordinator_status: :running,
+              current_algorithm_index: 0,
+              cycle_number: state.cycle_number + 1
+            }) do
+              {:ok, new_state} ->
+                Logger.info("Optimization cycle restarted - Cycle ##{new_state.cycle_number}")
+                {:reply, :ok, new_state}
+              {:error, reason} ->
+                {:reply, {:error, reason}, state}
+            end
+        end
+      _ ->
+        {:reply, {:error, :already_running}, state}
+    end
   end
 
   @impl true
@@ -382,23 +414,6 @@ defmodule JSS.Optimization.Coordinator do
 
       {:error, reason} ->
         {:error, reason}
-    end
-  end
-
-  defp start_algorithm_process(algorithm_name, shared_state, time_budget) do
-    # Pour l'instant, simulation basique - sera remplacé par les vrais modules
-    case algorithm_name do
-      :simulated_annealing ->
-        SimulatedAnnealing.start_optimization(shared_state, time_budget, self())
-
-      :vns ->
-        start_vns_process(shared_state, time_budget)
-
-      :hybrid ->
-        start_hybrid_process(shared_state, time_budget)
-
-      _ ->
-        {:error, :unknown_algorithm}
     end
   end
 
@@ -606,71 +621,6 @@ defmodule JSS.Optimization.Coordinator do
     }
   end
 
-  # ============================================================================
-  # Fonctions privées manquantes
-  # ============================================================================
-
-  defp get_current_algorithm_name(state) do
-    Enum.at(state.algorithm_cycle, state.current_algorithm_index)
-  end
-
-  defp get_algorithm_time_budget(algorithm_name) do
-    case algorithm_name do
-      :simulated_annealing -> ParameterManager.get("optimizer", "simulated_annealing_timeout")
-      :vns -> ParameterManager.get("optimizer", "vns_timeout")
-      :hybrid -> ParameterManager.get("optimizer", "hybrid_timeout")
-      _ -> ParameterManager.get("optimizer", "algorithm_time_budget")
-    end
-  end
-
-  defp calculate_adjusted_timeout(new_budget_ms) do
-    # Pour simplifier, retourner le nouveau budget complet
-    # Une implémentation plus sophistiquée calculerait le temps déjà écoulé
-    new_budget_ms
-  end
-
-  defp calculate_remaining_time(algorithm_name) do
-    # Pour simplifier, retourner le budget complet
-    # Une implémentation plus sophistiquée suivrait le temps écoulé
-    get_algorithm_time_budget(algorithm_name)
-  end
-
-  defp send_to_current_algorithm(state, message) do
-    if state.current_algorithm_pid and Process.alive?(state.current_algorithm_pid) do
-      send(state.current_algorithm_pid, message)
-    end
-  end
-
-  defp get_current_score(state) do
-    case state.shared_state do
-      nil -> nil
-      shared_state -> shared_state.current_score
-    end
-  end
-
-  defp get_shared_state_info(nil), do: %{status: :no_state}
-  defp get_shared_state_info(shared_state) do
-    %{
-      status: :available,
-      current_score: shared_state.current_score,
-      version: shared_state.version,
-      order_count: length(shared_state.order_index),
-      task_count: map_size(shared_state.task_assignments),
-      immutable_tasks: MapSet.size(shared_state.immutable_tasks),
-      last_modified: shared_state.last_modified
-    }
-  end
-
-  defp get_memory_usage do
-    {:memory, memory_info} = :erlang.process_info(self(), :memory)
-    memory_info
-  end
-
-  defp get_uptime_seconds do
-    {uptime_ms, _} = :erlang.statistics(:wall_clock)
-    uptime_ms / 1000
-  end
-
   defp record_algorithm_error(state, algorithm_name, error_reason) do
     # Mise à jour des statistiques d'erreur
     current_stats = Map.get(state.algorithm_statistics, algorithm_name, %{})
@@ -737,28 +687,16 @@ defmodule JSS.Optimization.Coordinator do
   defp max_score(nil, score), do: score
   defp max_score(current, score), do: max(current, score)
 
-  defp get_last_activity_timestamp(state) do
-    case state.performance_history do
-      [] -> nil
-      [latest | _] -> latest.timestamp
-    end
-  end
-
-
-  # ============================================================================
-  # Fonctions privées manquantes
-  # ============================================================================
-
   defp get_current_algorithm_name(state) do
     Enum.at(state.algorithm_cycle, state.current_algorithm_index)
   end
 
   defp get_algorithm_time_budget(algorithm_name) do
     case algorithm_name do
-      :simulated_annealing -> ParameterManager.get("optimizer", "simulated_annealing_timeout")
-      :vns -> ParameterManager.get("optimizer", "vns_timeout")
-      :hybrid -> ParameterManager.get("optimizer", "hybrid_timeout")
-      _ -> ParameterManager.get("optimizer", "algorithm_time_budget")
+      :simulated_annealing -> ParameterManager.get("optimizer", "simulated_annealing_timeout") || 30_000
+      :vns -> ParameterManager.get("optimizer", "vns_timeout") || 30_000
+      :hybrid -> ParameterManager.get("optimizer", "hybrid_timeout") || 30_000
+      _ -> ParameterManager.get("optimizer", "algorithm_time_budget") || 30_000
     end
   end
 
@@ -809,78 +747,4 @@ defmodule JSS.Optimization.Coordinator do
     {uptime_ms, _} = :erlang.statistics(:wall_clock)
     uptime_ms / 1000
   end
-
-  defp record_algorithm_error(state, algorithm_name, error_reason) do
-    # Mise à jour des statistiques d'erreur
-    current_stats = Map.get(state.algorithm_statistics, algorithm_name, %{})
-    updated_stats = %{current_stats | errors: (current_stats.errors || 0) + 1}
-
-    updated_algorithm_stats = Map.put(state.algorithm_statistics, algorithm_name, updated_stats)
-
-    # Ajout à l'historique de performance
-    performance_entry = %{
-      timestamp: DateTime.utc_now(),
-      algorithm: algorithm_name,
-      cycle: state.cycle_number,
-      error_reason: error_reason,
-      status: :error
-    }
-
-    updated_performance_history = [performance_entry | state.performance_history]
-
-    %{state |
-      algorithm_statistics: updated_algorithm_stats,
-      performance_history: updated_performance_history
-    }
-  end
-
-  defp should_continue_after_error(error_reason) do
-    # Politique de continuation après erreur
-    case error_reason do
-      :timeout -> true
-      :memory_error -> false
-      :invalid_state -> false
-      _ -> true  # Par défaut, continuer
-    end
-  end
-
-  defp update_algorithm_stats(current_stats, new_statistics, result_type) do
-    executions = (current_stats.executions || 0) + 1
-    total_time = (current_stats.total_time_ms || 0) + (new_statistics.execution_time_ms || 0)
-    avg_time = total_time / executions
-
-    updated_stats = %{current_stats |
-      executions: executions,
-      total_time_ms: total_time,
-      avg_time_ms: avg_time
-    }
-
-    case result_type do
-      :success ->
-        final_score = new_statistics.final_score
-
-        %{updated_stats |
-          best_score: min_score(current_stats.best_score, final_score),
-          worst_score: max_score(current_stats.worst_score, final_score),
-          last_improvement: if(new_statistics.improvements > 0, do: DateTime.utc_now(), else: current_stats.last_improvement)
-        }
-
-      :error ->
-        updated_stats
-    end
-  end
-
-  defp min_score(nil, score), do: score
-  defp min_score(current, score), do: min(current, score)
-
-  defp max_score(nil, score), do: score
-  defp max_score(current, score), do: max(current, score)
-
-  defp get_last_activity_timestamp(state) do
-    case state.performance_history do
-      [] -> nil
-      [latest | _] -> latest.timestamp
-    end
-  end
-
 end

@@ -12,6 +12,9 @@ defmodule JSS.Application do
       # PubSub system
       {Phoenix.PubSub, name: JSS.PubSub},
 
+      # Phoenix Endpoint
+      JSSWeb.Endpoint,
+
       # Core system actors
       JSS.System.ParameterManager,
       JSS.Actors.SwapEvaluator,
@@ -35,6 +38,7 @@ defmodule JSS.Application do
 
   @impl true
   def config_change(changed, _new, removed) do
+    JSSWeb.Endpoint.config_change(changed, removed)
     :ok
   end
 end

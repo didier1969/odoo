@@ -204,6 +204,18 @@ defmodule JSS.System.ParameterManager do
   end
 
   @impl true
+  def handle_info(:refresh_cache, state) do
+    # Rechargement des paramètres depuis la DB
+    updated_cache = load_parameters_from_db()
+    Logger.debug("Parameter cache refreshed with #{map_size(updated_cache)} parameters")
+
+    {:noreply, %{state |
+      cached_parameters: updated_cache,
+      last_cache_refresh: DateTime.utc_now()
+    }}
+  end
+
+  @impl true
   def handle_info({:parameter_updated, category, parameter_name, new_value}, state) do
     # Notification des processus abonnés
     Enum.each(state.subscribers, fn pid ->

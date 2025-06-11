@@ -1,0 +1,624 @@
+/* JSS Scheduler - Main Stylesheet */
+/* assets/css/app.css */
+
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* ============================================================================
+   JSS Custom Component Styles
+   ============================================================================ */
+
+@layer components {
+  /* Base Card Component */
+  .card {
+    @apply bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-4 transition-all duration-200;
+  }
+  
+  .card:hover {
+    @apply shadow-md;
+    transform: translateY(-1px);
+  }
+  
+  /* Button Variants */
+  .btn {
+    @apply inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+  
+  .btn-primary {
+    @apply btn bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500;
+  }
+  
+  .btn-secondary {
+    @apply btn bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500;
+  }
+  
+  .btn-success {
+    @apply btn bg-green-600 text-white hover:bg-green-700 focus:ring-green-500;
+  }
+  
+  .btn-warning {
+    @apply btn bg-yellow-600 text-white hover:bg-yellow-700 focus:ring-yellow-500;
+  }
+  
+  .btn-danger {
+    @apply btn bg-red-600 text-white hover:bg-red-700 focus:ring-red-500;
+  }
+  
+  .btn-outline {
+    @apply btn bg-transparent border-gray-300 text-gray-700 hover:bg-gray-50;
+  }
+  
+  /* Status Indicators */
+  .status-indicator {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+  
+  .status-running {
+    @apply status-indicator bg-green-100 text-green-800;
+  }
+  
+  .status-idle {
+    @apply status-indicator bg-gray-100 text-gray-800;
+  }
+  
+  .status-paused {
+    @apply status-indicator bg-yellow-100 text-yellow-800;
+  }
+  
+  .status-error {
+    @apply status-indicator bg-red-100 text-red-800;
+  }
+  
+  .status-completed {
+    @apply status-indicator bg-blue-100 text-blue-800;
+  }
+}
+
+/* ============================================================================
+   Layout Components
+   ============================================================================ */
+
+.container {
+  @apply max-w-7xl mx-auto px-4;
+}
+
+.nav-header {
+  @apply bg-white shadow-sm border-b border-gray-200;
+}
+
+.nav-content {
+  @apply container flex items-center justify-between h-16;
+}
+
+.nav-brand {
+  @apply text-xl font-bold text-gray-900;
+}
+
+.nav-links {
+  @apply hidden md:flex space-x-8;
+}
+
+.nav-link {
+  @apply text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150;
+}
+
+.nav-link.active {
+  @apply text-blue-600 bg-blue-50;
+}
+
+/* ============================================================================
+   Dashboard Components
+   ============================================================================ */
+
+.dashboard-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+}
+
+.dashboard-card {
+  @apply card;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.metric-container {
+  @apply flex items-center justify-between;
+}
+
+.metric-value {
+  @apply text-3xl font-bold text-gray-900;
+}
+
+.metric-label {
+  @apply text-sm font-medium text-gray-500 uppercase tracking-wide;
+}
+
+.metric-change {
+  @apply text-sm font-medium;
+}
+
+.metric-change.positive {
+  @apply text-green-600;
+}
+
+.metric-change.negative {
+  @apply text-red-600;
+}
+
+.metric-icon {
+  @apply w-8 h-8 text-gray-400;
+}
+
+/* ============================================================================
+   Gantt Chart Components
+   ============================================================================ */
+
+.gantt-container {
+  @apply bg-white rounded-lg shadow border overflow-hidden;
+}
+
+.gantt-header {
+  @apply bg-gray-50 border-b border-gray-200 p-4;
+}
+
+.gantt-controls {
+  @apply flex items-center justify-between flex-wrap gap-4;
+}
+
+.gantt-timeline {
+  @apply relative overflow-auto;
+  max-height: 70vh;
+}
+
+.gantt-grid {
+  @apply relative;
+  min-width: 1200px;
+}
+
+.timeline-header {
+  @apply sticky top-0 z-10 bg-white border-b border-gray-200;
+  height: 60px;
+}
+
+.timeline-scale {
+  @apply flex items-center h-full text-xs font-medium text-gray-600;
+}
+
+.timeline-tick {
+  @apply flex-shrink-0 px-2 border-l border-gray-200;
+}
+
+.timeline-tick:first-child {
+  @apply border-l-0;
+}
+
+.machine-row {
+  @apply flex items-center border-b border-gray-100 hover:bg-gray-50 transition-colors duration-150;
+  min-height: 60px;
+}
+
+.machine-label {
+  @apply flex-shrink-0 bg-gray-50 border-r border-gray-200;
+  width: 12rem;
+  padding: 0.75rem 1rem;
+}
+
+.machine-name {
+  @apply font-medium text-gray-900;
+}
+
+.machine-type {
+  @apply text-sm text-gray-500;
+}
+
+.machine-timeline {
+  @apply flex-1 relative;
+  padding: 0.25rem 0.5rem;
+}
+
+.task-bar {
+  @apply absolute rounded-sm cursor-pointer transition-all duration-200;
+  height: 24px;
+  min-width: 20px;
+}
+
+.task-bar:hover {
+  transform: scale(1.05);
+  @apply shadow-lg z-20;
+}
+
+.task-bar.priority-low {
+  @apply bg-gray-400;
+}
+
+.task-bar.priority-normal {
+  @apply bg-blue-500;
+}
+
+.task-bar.priority-high {
+  @apply bg-orange-500;
+}
+
+.task-bar.priority-urgent {
+  @apply bg-red-500;
+}
+
+.task-bar.priority-critical {
+  @apply bg-red-700;
+}
+
+.task-content {
+  @apply text-white text-xs font-medium px-2 py-1 truncate;
+}
+
+.task-progress {
+  @apply absolute top-0 left-0 h-full bg-white rounded-sm;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Setup time indicators */
+.setup-indicator {
+  @apply absolute bg-yellow-300 border-l-2 border-yellow-500;
+  height: 8px;
+  top: -4px;
+  min-width: 8px;
+}
+
+/* ============================================================================
+   Parameter Management
+   ============================================================================ */
+
+.parameter-section {
+  @apply mb-8;
+}
+
+.parameter-section-header {
+  @apply flex items-center justify-between mb-4;
+}
+
+.parameter-section-title {
+  @apply text-lg font-semibold text-gray-900;
+}
+
+.parameter-section-badge {
+  @apply bg-gray-100 text-gray-600 px-2 py-1 rounded-md text-sm;
+}
+
+.parameter-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4;
+}
+
+.parameter-item {
+  @apply bg-white border border-gray-200 rounded-lg p-4 hover:shadow-sm transition-shadow duration-150;
+}
+
+.parameter-label {
+  @apply block text-sm font-medium text-gray-700 mb-1;
+}
+
+.parameter-input {
+  @apply block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm;
+}
+
+.parameter-input.valid {
+  @apply border-green-300 focus:ring-green-500 focus:border-green-500;
+}
+
+.parameter-input.invalid {
+  @apply border-red-300 focus:ring-red-500 focus:border-red-500;
+}
+
+.parameter-description {
+  @apply text-xs text-gray-500 mt-1;
+}
+
+.parameter-type-badge {
+  @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-medium;
+}
+
+.parameter-type-integer {
+  @apply parameter-type-badge bg-blue-100 text-blue-800;
+}
+
+.parameter-type-float {
+  @apply parameter-type-badge bg-green-100 text-green-800;
+}
+
+.parameter-type-boolean {
+  @apply parameter-type-badge bg-purple-100 text-purple-800;
+}
+
+.parameter-type-string {
+  @apply parameter-type-badge bg-gray-100 text-gray-800;
+}
+
+.parameter-type-list {
+  @apply parameter-type-badge bg-yellow-100 text-yellow-800;
+}
+
+/* ============================================================================
+   Optimization Monitoring
+   ============================================================================ */
+
+.algorithm-grid {
+  @apply grid grid-cols-1 md:grid-cols-3 gap-6;
+}
+
+.algorithm-card {
+  @apply card relative overflow-hidden;
+}
+
+.algorithm-header {
+  @apply flex items-center justify-between mb-4;
+}
+
+.algorithm-name {
+  @apply text-lg font-semibold text-gray-900;
+}
+
+.algorithm-metrics {
+  @apply space-y-2;
+}
+
+.algorithm-metric {
+  @apply flex justify-between items-center;
+}
+
+.algorithm-metric-label {
+  @apply text-sm text-gray-600;
+}
+
+.algorithm-metric-value {
+  @apply text-sm font-medium text-gray-900;
+}
+
+.performance-bar {
+  @apply w-full bg-gray-200 rounded-full h-2 overflow-hidden;
+}
+
+.performance-fill {
+  @apply h-full transition-all duration-1000 ease-out rounded-full;
+}
+
+.performance-fill.excellent {
+  @apply bg-green-500;
+}
+
+.performance-fill.good {
+  @apply bg-blue-500;
+}
+
+.performance-fill.average {
+  @apply bg-yellow-500;
+}
+
+.performance-fill.poor {
+  @apply bg-red-500;
+}
+
+/* ============================================================================
+   Responsive Design
+   ============================================================================ */
+
+@media (max-width: 768px) {
+  .gantt-timeline {
+    @apply text-xs;
+  }
+  
+  .machine-row {
+    min-height: 50px;
+  }
+  
+  .task-bar {
+    height: 20px;
+  }
+  
+  .machine-label {
+    width: 8rem;
+  }
+  
+  .dashboard-grid {
+    @apply grid-cols-1;
+  }
+  
+  .parameter-grid {
+    @apply grid-cols-1;
+  }
+  
+  .algorithm-grid {
+    @apply grid-cols-1;
+  }
+}
+
+/* ============================================================================
+   Animation Utilities
+   ============================================================================ */
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes bounce-subtle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-bounce-subtle {
+  animation: bounce-subtle 1s ease-in-out infinite;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+/* ============================================================================
+   Loading States
+   ============================================================================ */
+
+.loading-spinner {
+  @apply inline-block w-4 h-4 border-2 border-gray-300 rounded-full animate-spin;
+  border-top-color: #3b82f6;
+}
+
+.loading-skeleton {
+  @apply bg-gray-200 rounded animate-pulse;
+}
+
+.loading-text {
+  @apply loading-skeleton h-4;
+}
+
+.loading-title {
+  @apply loading-skeleton h-6;
+}
+
+.loading-card {
+  @apply loading-skeleton h-32;
+}
+
+/* ============================================================================
+   Accessibility Improvements
+   ============================================================================ */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  white-space: nowrap;
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+}
+
+.focus-visible:focus {
+  @apply outline-none ring-2 ring-blue-500 ring-offset-2;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .card {
+    @apply border-2 border-gray-800;
+  }
+  
+  .btn {
+    @apply border-2;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================================================
+   Custom Scrollbars
+   ============================================================================ */
+
+.gantt-timeline::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+.gantt-timeline::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
+
+.gantt-timeline::-webkit-scrollbar-thumb {
+  @apply bg-gray-400 rounded-md;
+}
+
+.gantt-timeline::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-500;
+}
+
+/* ============================================================================
+   JSS-Specific Utilities
+   ============================================================================ */
+
+.jss-gradient {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.jss-text-gradient {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.jss-shadow {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.jss-border-gradient {
+  border: 2px solid transparent;
+  background: linear-gradient(white, white) padding-box,
+              linear-gradient(135deg, #667eea, #764ba2) border-box;
+}
+
+/* Notification styles */
+.notification {
+  @apply fixed top-4 right-4 px-4 py-3 rounded-lg shadow-lg z-50 transition-all duration-300;
+  transform: translateX(0);
+}
+
+.notification.entering {
+  transform: translateX(100%);
+  @apply opacity-0;
+}
+
+.notification.exiting {
+  transform: translateX(100%);
+  @apply opacity-0;
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    @apply hidden;
+  }
+  
+  .gantt-timeline {
+    @apply overflow-visible;
+  }
+  
+  .card {
+    @apply shadow-none border border-gray-300;
+  }
+  
+  .btn {
+    @apply border border-gray-400 text-gray-800 bg-white;
+  }
+}

@@ -1,6 +1,9 @@
 # config/default_parameters.exs
 # Configuration des paramètres par défaut pour JSS
 
+
+import Config
+
 config :jss, :default_parameters, %{
   # Paramètres d'optimisation
   optimizer: %{
@@ -157,4 +160,16 @@ config :jss, :default_parameters, %{
     ui_tablet_breakpoint: 1024,
     ui_desktop_breakpoint: 1200
   }
+}
+
+
+# Configuration base de données par défaut
+config :jss, :database, %{
+  default_host: "localhost",
+  default_port: 5432,
+  default_username: "postgres",
+  default_password: "stdi5757?",
+  pool_size_dev: 10,
+  pool_size_test: 5,
+  pool_size_prod: 20
 }
